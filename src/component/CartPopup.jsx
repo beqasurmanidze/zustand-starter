@@ -1,17 +1,22 @@
-import React from 'react';
-
+import React from "react";
+import useCartStore from "../store/store";
 const CartPopup = () => {
-  const cart = [
-    { id: 1, name: 'Product 1', price: 20 },
-    { id: 2, name: 'Product 2', price: 35 },
-    { id: 3, name: 'Product 3', price: 50 },
-    { id: 4, name: 'Product 4', price: 60 },
-  ];
+  const toggleCart = useCartStore((state) => state.toggleCart);
+  const cart = useCartStore((state) => state.cart);
+  const clearCart = useCartStore((state) => state.clearCart);
+  const isCardOpen = useCartStore((state) => state.isCardOpen);
+
+  if (!isCardOpen) return null;
 
   return (
     <div className="absolute right-4 top-16 bg-white shadow-lg p-4 rounded-lg w-64 z-50">
       <h2 className="text-xl font-bold mb-4">Cart</h2>
-      <button className="absolute top-2 right-2 text-gray-500">✕</button>
+      <button
+        onClick={toggleCart}
+        className="absolute top-2 right-2 text-gray-500"
+      >
+        ✕
+      </button>
 
       <ul>
         {cart.map((item) => (
@@ -39,7 +44,10 @@ const CartPopup = () => {
         ))}
       </ul>
 
-      <button className="mt-4 w-full bg-red-600 text-white py-2 rounded">
+      <button
+        onClick={clearCart}
+        className="mt-4 w-full bg-red-600 text-white py-2 rounded"
+      >
         Clear Cart
       </button>
     </div>
